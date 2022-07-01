@@ -4,6 +4,7 @@ const loginController = express();
 const { userModel } = require("../models/UsuariosModels");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const sha256 = require("sha256");
 
 loginController.post("/login", (req, res) => {
   let condition = {
@@ -22,9 +23,9 @@ loginController.post("/login", (req, res) => {
         });
       } else {
         try {
-          var salt = bcrypt.genSaltSync(10);
-          var hash = bcrypt.hashSync(req.body.password, salt);
-          let state = bcrypt.compareSync(result.contrasenia_acceso_usuario,hash);
+          var contrasenia = sha256(req.body.password);
+          let state = contrasenia === result.contrasenia_acceso_usuario;
+          //let state = bcrypt.compareSync(contrasenia, result.contrasenia_acceso_usuario);
           if (!state) {
             return res.status(400).json({
               ok: false,

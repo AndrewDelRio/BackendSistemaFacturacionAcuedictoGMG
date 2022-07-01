@@ -1,0 +1,85 @@
+const express = require('express');
+const matriculaController = express();
+const { Op } = require("sequelize");
+const {matriculaModel} = require('../models/MatriculasModel');
+const {JWTokenVerification} = require('../middleware/Authentication');
+
+// obtener una matricula
+matriculaController.get('/matriculaGet', (req, res) => {
+    matriculaModel.findOne({
+        where: {
+            [Op.or]: [
+                { id_matricula: req.body.id_matricula},
+            ]
+        }
+    }).then((result) => {
+        if (result) {
+            return res.status(200).json({ok: true, result: result});
+        } else {
+            res.status(200).json({ok: false, message: 'El Id registrado no existe'});
+        }
+    }).catch((err) => {
+        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+    });
+});
+
+// crear una matricula
+matriculaController.post('/matriculaAdd', (req, res) => {
+    let newMatricula = matriculaModel.build({
+        id_matricula : Number(req.body.id_matricula),
+        fecha_adjudicación: req.body.fecha_adjudicación,
+        estado_matricula : req.body.estado_matricula,
+        id_tipo_de_servicio : Number(req.body.id_tipo_de_servicio),
+        id_numero_predial: req.body.id_numero_predial,
+        id_suscriptor: Number(req.body.id_suscriptor),
+        id_medidor : Number(req.body.id_medidor),
+        id_financiacion:Number(req.body.id_financiacion)
+    });
+    matriculaModel.findOne({
+        where: {
+            [Op.or]: [
+                { id_matricula: req.body.id_matricula},
+            ]
+        }
+    }).then((result) => {
+        if (!result) {
+            newMatricula.save().then((matriculaSaved) => {
+                res.status(200).json({ok: true, message: 'La matricula ha sido agregado correctamente'});
+            }).catch((err) => {
+                res.status(500).json({ok: false, message: 'Error al agregar la matricula', error: err});
+            });
+        } else {
+            res.status(200).json({ok: false, message: 'La matricula ya existe'});
+        }
+    }).catch((err) => {
+        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+    });
+});
+
+//modificar matricula: predio, suscriptor, estado, tipo de servicio
+ matriculaController.post('/matriculaUpdate',[JWTokenVerification], (req, res) => {
+    matriculaModel.findOne({
+        where: {
+            [Op.or]: [
+                { id_matricula: req.body.id_matricula},
+            ]
+        }
+    }).then((result) => {
+        if (result) {
+            result.direccion_suscriptor  = req.body.direccion_suscriptor;
+            result.correo_electronico_suscriptor = req.body.correo_electronico_suscriptor;
+            result.telefono_suscriptor = req.body.telefono_suscriptor;
+            result.save().then((suscriptorModified) => {
+                res.status(200).json({ok: true, message: 'Los datos del suscriptor han sido modificados correctamente'});
+            }).catch((err) => {
+                res.status(500).json({ok: false, message: 'Error al editar los datos del Suscriptor', error: err});
+            });
+        } else {
+            res.status(200).json({ok: false, message: 'El Suscriptor no existe'});
+        }
+    }).catch((err) => {
+        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+    });
+});
+
+module.exports = {matriculaController};
