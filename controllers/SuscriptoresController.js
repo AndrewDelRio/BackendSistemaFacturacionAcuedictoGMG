@@ -56,9 +56,7 @@ suscriptorController.post('/suscriptor',[JWTokenVerification], (req, res) => {
     });
 });
 
-
- // Funcion editar suscriptor
- suscriptorController.post('/suscriptorUpdate', (req, res) => {
+ suscriptorController.post('/suscriptorUpdate',[JWTokenVerification], (req, res) => {
     suscriptorModel.findOne({
         where: {
             [Op.or]: [
