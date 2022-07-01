@@ -56,4 +56,27 @@ suscriptorController.post('/suscriptor',[JWTokenVerification], (req, res) => {
     });
 });
 
+/**
+ * Funcion editar suscriptor
+suscriptorController.post('/suscriptorUpdate', (req, res) => {
+    suscriptorModel.findOne({
+        where: {
+            [Op.or]: [
+                { id_suscriptor: req.body.id_suscriptor},
+            ]
+        }
+    }).then((result) => {
+        if (!result) {
+            suscriptorModel.update({},
+                {where:
+                    id_suscriptor:req.body.id_suscriptor
+                });
+        } else {
+            res.status(200).json({ok: false, message: 'El Suscriptor no existe'});
+        }
+    }).catch((err) => {
+        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+    });
+});
+ */
 module.exports = {suscriptorController};
