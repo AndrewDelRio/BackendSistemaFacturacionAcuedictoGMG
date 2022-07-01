@@ -2,7 +2,6 @@ const express = require("express");
 const { Op } = require("sequelize");
 const loginController = express();
 const { userModel } = require("../models/UsuariosModels");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sha256 = require("sha256");
 
@@ -25,7 +24,6 @@ loginController.post("/login", (req, res) => {
         try {
           var contrasenia = sha256(req.body.password);
           let state = contrasenia === result.contrasenia_acceso_usuario;
-          //let state = bcrypt.compareSync(contrasenia, result.contrasenia_acceso_usuario);
           if (!state) {
             return res.status(400).json({
               ok: false,
