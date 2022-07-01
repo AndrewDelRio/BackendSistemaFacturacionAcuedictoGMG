@@ -17,11 +17,11 @@ const attributes = {
         type: DataTypes.STRING(45),
         allowNull:true
     },
-    primer_mombre_suscriptor:{
+    primer_nombre_suscriptor:{
         type: DataTypes.STRING(45),
         allowNull:false
     },
-    segundo_mombre_suscriptor:{
+    segundo_nombre_suscriptor:{
         type: DataTypes.STRING(45),
         allowNull:true
     },

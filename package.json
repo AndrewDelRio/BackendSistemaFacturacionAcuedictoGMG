@@ -7,7 +7,7 @@
     "nodemon": "^1.19.4"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "dev": "nodemon index.js"
   },
   "repository": {
