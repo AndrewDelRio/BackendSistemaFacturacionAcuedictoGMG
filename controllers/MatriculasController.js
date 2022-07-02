@@ -2,7 +2,9 @@ const express = require('express');
 const matriculaController = express();
 const { Op } = require("sequelize");
 const {matriculaModel} = require('../models/MatriculasModel');
+const {medidorModel} = require('../models/MedidorModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
+
 
 // obtener una matricula
 matriculaController.get('/matriculaGet',[JWTokenVerification], (req, res) => {
@@ -124,4 +126,24 @@ matriculaController.get('/getMatState',[JWTokenVerification], (req, res) => {
     'Suspension Impuesta','Suspension temporal','Cancelada'];
     return res.status(200).json({ok: true, result: matState});
 });
+
+//obtener el medidor asociado a una matricula
+matriculaController.get('/getMedidorByMatricula', (req, res) => {
+    medidorModel.findOne({
+        where: {
+            [Op.or]: [
+                { id_medidor: req.body.id_medidor},
+            ]
+        }
+    }).then((result) => {
+        if (result) {
+            return res.status(200).json({ok: true, result: result});
+        } else {
+            res.status(200).json({ok: false, message: 'El Id registrado no existe'});
+        }
+    }).catch((err) => {
+        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+    });
+});
+
 module.exports = {matriculaController};
