@@ -16,7 +16,7 @@ loginController.post("/login", (req, res) => {
     .findOne(condition)
     .then((result) => {
       if (!result) {
-        return res.status(404).json({
+        return res.status(200).json({
           ok: false,
           error: "No encontrado",
           message: `El correo ${req.body.email} no esta registrado`,
@@ -25,7 +25,7 @@ loginController.post("/login", (req, res) => {
           var contrasenia = sha256(req.body.password);
           let state = contrasenia === result.contrasenia_acceso_usuario;
           if (!state) {
-            return res.status(400).json({
+            return res.status(200).json({
               ok: false,
               error: "Contraseña erronea",
               message: "La contraseña no corresponde a la registrada",

@@ -85,7 +85,6 @@ predioController.post('/predioAdd',[JWTokenVerification], (req, res) => {
 });
 
 //obtener todos los predios 
-//modificar para que retorne id_numero_predial y nombre_predio
 predioController.get('/allPredios', (req, res) => {
     predioModel.findAll({
         attributes: ['id_numero_predial','nombre_predio']
