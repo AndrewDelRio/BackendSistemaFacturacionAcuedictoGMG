@@ -5,6 +5,7 @@ const { userModel } = require("../models/UsuariosModels");
 const jwt = require("jsonwebtoken");
 const sha256 = require("sha256");
 
+//funcion de login del sistema
 loginController.post("/login", (req, res) => {
   let condition = {
     where: {

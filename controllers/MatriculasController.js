@@ -101,4 +101,21 @@ matriculaController.get('/matriculaGetAllBySuscriptor', (req, res) => {
     });
 });
 
+// obtener todas las matriculas de un predio
+matriculaController.get('/matriculaGetAllByPredio', (req, res) => {
+    matriculaModel.findAll({
+        where: {
+                 id_numero_predial: req.body.id_numero_predial,
+        }
+    }).then((result) => {
+        if (result) {
+            return res.status(200).json({ok: true, result: result});
+        } else {
+            res.status(200).json({ok: false, message: 'El predio no existe o no tiene matriculas asignadas'});
+        }
+    }).catch((err) => {
+        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+    });
+});
+
 module.exports = {matriculaController};

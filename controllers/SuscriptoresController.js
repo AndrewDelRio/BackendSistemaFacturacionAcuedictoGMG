@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const {suscriptorModel} = require('../models/SuscriptorModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
 
+//Buscar suscriptor por id
 suscriptorController.get('/suscriptorsGet',[JWTokenVerification], (req, res) => {
     suscriptorModel.findOne({
         where: {
@@ -22,7 +23,8 @@ suscriptorController.get('/suscriptorsGet',[JWTokenVerification], (req, res) => 
     });
 });
 
-suscriptorController.post('/suscriptor',[JWTokenVerification], (req, res) => {
+//registrar suscriptor
+suscriptorController.post('/suscriptorRegister',[JWTokenVerification], (req, res) => {
     let newSuscriptor = suscriptorModel.build({
         id_suscriptor: Number(req.body.id_suscriptor),
         primer_apellido_suscriptor: req.body.primer_apellido_suscriptor,
@@ -56,6 +58,7 @@ suscriptorController.post('/suscriptor',[JWTokenVerification], (req, res) => {
     });
 });
 
+//editar datos del suscriptor
  suscriptorController.post('/suscriptorUpdate',[JWTokenVerification], (req, res) => {
     suscriptorModel.findOne({
         where: {
@@ -81,4 +84,12 @@ suscriptorController.post('/suscriptor',[JWTokenVerification], (req, res) => {
     });
 });
 
+//obtener todos los suscriptores
+suscriptorController.get('/getAllSuscriptors', [JWTokenVerification], (req, res) => {
+    suscriptorModel.findAll().then((result) => {
+        return res.status(200).json({ok: true, result: result});
+    }).catch((err) => {
+        return res.status(400).json({ok: false, error: err});
+    });
+});
 module.exports = {suscriptorController};
