@@ -22,7 +22,6 @@ loginController.post("/login", (req, res) => {
           message: `El correo ${req.body.email} no esta registrado`,
         });
       } else {
-        try {
           var contrasenia = sha256(req.body.password);
           let state = contrasenia === result.contrasenia_acceso_usuario;
           if (!state) {
@@ -41,9 +40,6 @@ loginController.post("/login", (req, res) => {
               message: result.nombres_usuario,
             });
           }
-        } catch (error) {
-          console.error(error);
-        }
       }
     })
     .catch((err) => {

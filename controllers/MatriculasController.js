@@ -118,4 +118,10 @@ matriculaController.get('/matriculaGetAllByPredio', (req, res) => {
     });
 });
 
+//obtener los estados de la matricula
+matriculaController.get('/getMatState', (req, res) => {
+    let matState = ['Adjudicada','En instalacion','Activa',
+    'Suspension Impuesta','Suspension temporal','Cancelada'];
+    return res.status(200).json({ok: true, result: matState});
+});
 module.exports = {matriculaController};
