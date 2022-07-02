@@ -56,8 +56,8 @@ matriculaController.post('/matriculaAdd', (req, res) => {
     });
 });
 
-//modificar matricula: predio, suscriptor, estado, tipo de servicio
- matriculaController.post('/matriculaUpdate',[JWTokenVerification], (req, res) => {
+//modificar matricula: predio, suscriptor, estado, tipo de servicio,id medidor
+ matriculaController.post('/matriculaUpdate', (req, res) => {
     matriculaModel.findOne({
         where: {
             [Op.or]: [
@@ -66,16 +66,35 @@ matriculaController.post('/matriculaAdd', (req, res) => {
         }
     }).then((result) => {
         if (result) {
-            result.direccion_suscriptor  = req.body.direccion_suscriptor;
-            result.correo_electronico_suscriptor = req.body.correo_electronico_suscriptor;
-            result.telefono_suscriptor = req.body.telefono_suscriptor;
-            result.save().then((suscriptorModified) => {
-                res.status(200).json({ok: true, message: 'Los datos del suscriptor han sido modificados correctamente'});
+            result.id_numero_predial  = req.body.id_numero_predial;
+            result.id_suscriptor = req.body.id_suscriptor;
+            result.estado_matricula = req.body.estado_matricula;
+            result.id_tipo_de_servicio = req.body.id_tipo_de_servicio;
+            result.id_medidor = req.body.id_medidor;
+            result.save().then((matriculaModified) => {
+                res.status(200).json({ok: true, message: 'Los datos de la matricula han sido modificados correctamente'});
             }).catch((err) => {
-                res.status(500).json({ok: false, message: 'Error al editar los datos del Suscriptor', error: err});
+                res.status(500).json({ok: false, message: 'Error al editar los datos de la Matricula', error: err});
             });
         } else {
-            res.status(200).json({ok: false, message: 'El Suscriptor no existe'});
+            res.status(200).json({ok: false, message: 'La Matricula no existe'});
+        }
+    }).catch((err) => {
+        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+    });
+});
+
+// obtener todas las matriculas de un suscriptor
+matriculaController.get('/matriculaGetAllBySuscriptor', (req, res) => {
+    matriculaModel.findAll({
+        where: {
+                 id_suscriptor: req.body.id_suscriptor,
+        }
+    }).then((result) => {
+        if (result) {
+            return res.status(200).json({ok: true, result: result});
+        } else {
+            res.status(200).json({ok: false, message: 'El suscriptor no existe o no tiene matriculas asignadas'});
         }
     }).catch((err) => {
         res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
