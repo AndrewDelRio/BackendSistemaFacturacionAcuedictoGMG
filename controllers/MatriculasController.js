@@ -5,7 +5,7 @@ const {matriculaModel} = require('../models/MatriculasModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
 
 // obtener una matricula
-matriculaController.get('/matriculaGet', (req, res) => {
+matriculaController.get('/matriculaGet',[JWTokenVerification], (req, res) => {
     matriculaModel.findOne({
         where: {
             [Op.or]: [
@@ -24,7 +24,7 @@ matriculaController.get('/matriculaGet', (req, res) => {
 });
 
 // crear una matricula
-matriculaController.post('/matriculaAdd', (req, res) => {
+matriculaController.post('/matriculaAdd',[JWTokenVerification], (req, res) => {
     let newMatricula = matriculaModel.build({
         id_matricula : Number(req.body.id_matricula),
         fecha_adjudicación: req.body.fecha_adjudicación,
@@ -57,7 +57,7 @@ matriculaController.post('/matriculaAdd', (req, res) => {
 });
 
 //modificar matricula: predio, suscriptor, estado, tipo de servicio,id medidor
- matriculaController.post('/matriculaUpdate', (req, res) => {
+ matriculaController.post('/matriculaUpdate',[JWTokenVerification], (req, res) => {
     matriculaModel.findOne({
         where: {
             [Op.or]: [
@@ -85,7 +85,7 @@ matriculaController.post('/matriculaAdd', (req, res) => {
 });
 
 // obtener todas las matriculas de un suscriptor
-matriculaController.get('/matriculaGetAllBySuscriptor', (req, res) => {
+matriculaController.get('/matriculaGetAllBySuscriptor',[JWTokenVerification], (req, res) => {
     matriculaModel.findAll({
         where: {
                  id_suscriptor: req.body.id_suscriptor,
@@ -102,7 +102,7 @@ matriculaController.get('/matriculaGetAllBySuscriptor', (req, res) => {
 });
 
 // obtener todas las matriculas de un predio
-matriculaController.get('/matriculaGetAllByPredio', (req, res) => {
+matriculaController.get('/matriculaGetAllByPredio',[JWTokenVerification], (req, res) => {
     matriculaModel.findAll({
         where: {
                  id_numero_predial: req.body.id_numero_predial,
@@ -119,7 +119,7 @@ matriculaController.get('/matriculaGetAllByPredio', (req, res) => {
 });
 
 //obtener los estados de la matricula
-matriculaController.get('/getMatState', (req, res) => {
+matriculaController.get('/getMatState',[JWTokenVerification], (req, res) => {
     let matState = ['Adjudicada','En instalacion','Activa',
     'Suspension Impuesta','Suspension temporal','Cancelada'];
     return res.status(200).json({ok: true, result: matState});

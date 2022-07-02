@@ -3,7 +3,7 @@ const destinoEconomicoController = express();
 const {JWTokenVerification} = require('../middleware/Authentication');
 
 // obtener una matricula
-destinoEconomicoController.get('/getdestEconomico', (req, res) => {
+destinoEconomicoController.get('/getdestEconomico',[JWTokenVerification], (req, res) => {
     let destino = ['Habitacional','Industrial','Comercial',
     'Agropecuario','Minero','Cultural','Recreacional',
     'Salubridad','Institucional o Estado','Mixto','Otros'];

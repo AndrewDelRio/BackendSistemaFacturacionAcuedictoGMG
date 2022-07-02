@@ -5,7 +5,7 @@ const {predioModel} = require('../models/PrediosModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
 
 // obtener un predio
-predioController.get('/predioGet', (req, res) => {
+predioController.get('/predioGet',[JWTokenVerification], (req, res) => {
     predioModel.findOne({
         where: {
             [Op.or]: [
@@ -24,7 +24,7 @@ predioController.get('/predioGet', (req, res) => {
 });
 
 // crear un predio
-predioController.post('/matriculaAdd', (req, res) => {
+predioController.post('/predioAdd',[JWTokenVerification], (req, res) => {
     let newPredio = predioModel.build({
         id_numero_predial : req.body.id_numero_predial,
         numero_predial_anterior: req.body.numero_predial_anterior,
@@ -57,7 +57,7 @@ predioController.post('/matriculaAdd', (req, res) => {
 });
 
 //modificar predio: nombre predio, destino economico, area construida
- predioController.post('/mpredioUpdate', (req, res) => {
+ predioController.post('/mpredioUpdate',[JWTokenVerification], (req, res) => {
     predioModel.findOne({
         where: {
             [Op.or]: [
@@ -85,6 +85,7 @@ predioController.post('/matriculaAdd', (req, res) => {
 });
 
 //obtener todos los predios 
+//modificar para que retorne id_numero_predial y nombre_predio
 predioController.get('/allPredios', [JWTokenVerification], (req, res) => {
     predioModel.findAll().then((result) => {
         return res.status(200).json({ok: true, result: result});
