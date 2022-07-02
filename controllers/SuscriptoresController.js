@@ -86,7 +86,11 @@ suscriptorController.post('/suscriptorRegister',[JWTokenVerification], (req, res
 
 //obtener todos los suscriptores
 suscriptorController.get('/getAllSuscriptors', [JWTokenVerification], (req, res) => {
-    suscriptorModel.findAll().then((result) => {
+    suscriptorModel.findAll(
+        { 
+            attributes:['id_suscriptor','primer_apellido_suscriptor','primer_nombre_suscriptor']
+        }
+    ).then((result) => {
         return res.status(200).json({ok: true, result: result});
     }).catch((err) => {
         return res.status(400).json({ok: false, error: err});
