@@ -14,18 +14,18 @@ suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (
             ]
         }
     }).then((result) => {
-        console.log(result.id_tipo_de_documento);
         if (result) {
+            console.log(result)
             tipoDeDocumentoModel.findOne({
                 where: {
-                    
-                    id_tipo_de_documento: result.id_tipo_de_documento  
+                    id_tipo_de_documento: result.id_tipo_de_documento
                 }
             }).then((resultTipoDeDocumento) => {
+                console.log(resultTipoDeDocumento.abreviatura_tipo_de_documento)
                 if (resultTipoDeDocumento) {
-                   result.abreviatura_tipo_de_documento = resultTipoDeDocumento.abreviatura_tipo_de_documento;
+                   result.dataValues.abreviatura_tipo_de_documento = resultTipoDeDocumento.abreviatura_tipo_de_documento;
                 } else {
-                    result.abreviatura_tipo_de_documento = 'No definido';
+                    result.dataValues.abreviatura_tipo_de_documento = 'No definido';
                 }
                 return res.status(200).json({ok: true, result: result});
             });
