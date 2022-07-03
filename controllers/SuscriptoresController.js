@@ -15,13 +15,11 @@ suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (
         }
     }).then((result) => {
         if (result) {
-            console.log(result)
             tipoDeDocumentoModel.findOne({
                 where: {
                     id_tipo_de_documento: result.id_tipo_de_documento
                 }
             }).then((resultTipoDeDocumento) => {
-                console.log(resultTipoDeDocumento.abreviatura_tipo_de_documento)
                 if (resultTipoDeDocumento) {
                    result.dataValues.abreviatura_tipo_de_documento = resultTipoDeDocumento.abreviatura_tipo_de_documento;
                 } else {
