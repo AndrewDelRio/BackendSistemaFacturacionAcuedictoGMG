@@ -5,11 +5,11 @@ const {suscriptorModel} = require('../models/SuscriptorModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
 
 //Buscar suscriptor por id
-suscriptorController.get('/suscriptorsGet',[JWTokenVerification], (req, res) => {
+suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (req, res) => {
     suscriptorModel.findOne({
         where: {
             [Op.or]: [
-                { id_suscriptor: req.body.id_suscriptor},
+                { id_suscriptor: req.params.idSubscriber},
             ]
         }
     }).then((result) => {
