@@ -2,6 +2,7 @@ const express = require('express');
 const suscriptorController = express();
 const { Op } = require("sequelize");
 const {suscriptorModel} = require('../models/SuscriptorModel');
+const{tipoDeDocumentoModel} = require('../models/TiposDeDocumento');
 const {JWTokenVerification} = require('../middleware/Authentication');
 
 //Buscar suscriptor por id
@@ -13,8 +14,21 @@ suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (
             ]
         }
     }).then((result) => {
+        console.log(result.id_tipo_de_documento);
         if (result) {
-            return res.status(200).json({ok: true, result: result});
+            tipoDeDocumentoModel.findOne({
+                where: {
+                    
+                    id_tipo_de_documento: result.id_tipo_de_documento  
+                }
+            }).then((resultTipoDeDocumento) => {
+                if (resultTipoDeDocumento) {
+                   result.abreviatura_tipo_de_documento = resultTipoDeDocumento.abreviatura_tipo_de_documento;
+                } else {
+                    result.abreviatura_tipo_de_documento = 'No definido';
+                }
+                return res.status(200).json({ok: true, result: result});
+            });
         } else {
             res.status(200).json({ok: false, message: 'El Id registrado no existe'});
         }
@@ -24,7 +38,7 @@ suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (
 });
 
 //registrar suscriptor
-suscriptorController.post('/suscriptorRegister',[JWTokenVerification], (req, res) => {
+suscriptorController.post('/suscriberRegister',[JWTokenVerification], (req, res) => {
     let newSuscriptor = suscriptorModel.build({
         id_suscriptor: Number(req.body.id_suscriptor),
         primer_apellido_suscriptor: req.body.primer_apellido_suscriptor,
@@ -85,7 +99,7 @@ suscriptorController.post('/suscriptorRegister',[JWTokenVerification], (req, res
 });
 
 //obtener todos los suscriptores
-suscriptorController.get('/getAllSuscriptors', [JWTokenVerification], (req, res) => {
+suscriptorController.get('/getAllSuscri', [JWTokenVerification], (req, res) => {
     suscriptorModel.findAll(
         { 
             attributes:['id_suscriptor','primer_apellido_suscriptor','primer_nombre_suscriptor']
