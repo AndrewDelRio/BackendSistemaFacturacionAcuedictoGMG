@@ -84,7 +84,7 @@ suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (
 });
 
 //registrar suscriptor
-suscriptorController.post('/registerSubscriber',[JWTokenVerification], (req, res) => {
+suscriptorController.post('/addSubscriber',[JWTokenVerification], (req, res) => {
     let newSuscriptor = suscriptorModel.build({
         id_suscriptor: Number(req.body.id_suscriptor),
         primer_apellido_suscriptor: req.body.primer_apellido_suscriptor,

@@ -5,7 +5,7 @@ const {tipoDeDocumentoModel} = require('../models/TiposDeDocumento');
 const {JWTokenVerification} = require('../middleware/Authentication');
 
 // obtener todos los tipos de servicio
-tipoDeDocumentoController.get('/allServiceType', [JWTokenVerification],(req, res) => {
+tipoDeDocumentoController.get('/getDocumentType', [JWTokenVerification],(req, res) => {
     tipoDeDocumentoModel.findAll({
         attributes: ['id_tipo_de_documento','abreviatura_tipo_de_documento']
     }).then((result) => {

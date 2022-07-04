@@ -2,13 +2,14 @@ const express = require('express');
 const predioController = express();
 const { Op } = require("sequelize");
 const {predioModel} = require('../models/PrediosModel');
+const{matriculaModel} = require('../models/MatriculasModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
 
 // obtener un predio
-predioController.get('/predioGet/:idProperty',[JWTokenVerification], (req, res) => {
+predioController.get('/getProperty/:idProperty',[JWTokenVerification], (req, res) => {
     predioModel.findOne({
         where: {
-                id_numero_predial: "'" + req.params.id_numero_predial +"'"
+                id_numero_predial: req.params.idProperty
         }
     }).then((result) => {
         if (result) {
@@ -22,7 +23,7 @@ predioController.get('/predioGet/:idProperty',[JWTokenVerification], (req, res) 
 });
 
 // crear un predio
-predioController.post('/predioAdd',[JWTokenVerification], (req, res) => {
+predioController.post('/addPoperty',[JWTokenVerification], (req, res) => {
     let newPredio = predioModel.build({
         id_numero_predial : req.body.id_numero_predial,
         numero_predial_anterior: req.body.numero_predial_anterior,
@@ -55,7 +56,7 @@ predioController.post('/predioAdd',[JWTokenVerification], (req, res) => {
 });
 
 //modificar predio: nombre predio, destino economico, area construida
- predioController.post('/mpredioUpdate',[JWTokenVerification], (req, res) => {
+ predioController.post('/updateProperty',[JWTokenVerification], (req, res) => {
     predioModel.findOne({
         where: {
             [Op.or]: [
@@ -83,7 +84,7 @@ predioController.post('/predioAdd',[JWTokenVerification], (req, res) => {
 });
 
 //obtener todos los predios 
-predioController.get('/allPredios', (req, res) => {
+predioController.get('/getProperties', (req, res) => {
     predioModel.findAll({
         attributes: ['id_numero_predial','nombre_predio']
     }).then((result) => {
