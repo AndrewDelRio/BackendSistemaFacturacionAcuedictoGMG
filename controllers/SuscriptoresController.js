@@ -28,7 +28,6 @@ suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (
                 } else {
                     result.dataValues.abreviatura_tipo_de_documento = 'No definido';
                 }
-                //consulta de matriculas
                 matriculaModel.findAll({
                     where: {
                         id_suscriptor: req.params.idSubscriber
@@ -55,10 +54,8 @@ suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (
                             .then((resultProperty) => {
                                 enrollment.dataValues.nombre_predio = resultProperty.dataValues.nombre_predio
                                 countEnrollments++;
-                                console.log(enrollment.dataValues);
                                 if (countEnrollments === resultEnrollments.length) {
                                     result.dataValues.enrollments = resultEnrollments;
-                                    console.log(result.dataValues)
                                     return res.status(200).json({ok: true, result: result});
                                 }
                             })
