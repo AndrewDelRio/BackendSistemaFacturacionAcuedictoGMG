@@ -13,6 +13,7 @@ predioController.get('/getProperty/:idProperty',[JWTokenVerification], (req, res
         }
     }).then((result) => {
         if (result) {
+            
             return res.status(200).json({ok: true, result: result});
         } else {
             res.status(200).json({ok: false, message: 'El Id del predio no existe'});

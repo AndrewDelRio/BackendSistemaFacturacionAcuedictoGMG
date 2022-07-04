@@ -145,7 +145,7 @@ suscriptorController.post('/addSubscriber',[JWTokenVerification], (req, res) => 
 });
 
 //obtener todos los suscriptores
-suscriptorController.get('/getAllSuscri', [JWTokenVerification], (req, res) => {
+suscriptorController.get('/getAllSubscriber', [JWTokenVerification], (req, res) => {
     suscriptorModel.findAll(
         { 
             attributes:['id_suscriptor','primer_apellido_suscriptor','primer_nombre_suscriptor']

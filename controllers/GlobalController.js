@@ -8,6 +8,7 @@ const{destinoEconomicoController} = require('./DestinoEconomicoController');
 const {lugarController} = require('./LugarController');
 const {tipoDeServicioController} = require('./TiposDeServicioController');
 const {medidorController} = require('./MedidoresController');
+const{tipoDeDocumentoController} = require('./TiposDeDocumentoController');
 
 globalController.use(loginController);
 globalController.use(suscriptorController);
@@ -17,5 +18,6 @@ globalController.use(destinoEconomicoController);
 globalController.use(lugarController);
 globalController.use(tipoDeServicioController);
 globalController.use(medidorController);
+globalController.use(tipoDeDocumentoController);
 
 module.exports = {globalController};
