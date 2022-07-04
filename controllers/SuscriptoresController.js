@@ -2,8 +2,11 @@ const express = require('express');
 const suscriptorController = express();
 const { Op } = require("sequelize");
 const {suscriptorModel} = require('../models/SuscriptorModel');
+const { matriculaModel } = require('../models/MatriculasModel');
+const { tipoDeServicioModel } = require('../models/TiposDeServicioModel');
 const{tipoDeDocumentoModel} = require('../models/TiposDeDocumento');
 const {JWTokenVerification} = require('../middleware/Authentication');
+const { predioModel } = require('../models/PrediosModel');
 
 //Buscar suscriptor por id
 suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (req, res) => {
@@ -25,13 +28,61 @@ suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (
                 } else {
                     result.dataValues.abreviatura_tipo_de_documento = 'No definido';
                 }
-                return res.status(200).json({ok: true, result: result});
+                //consulta de matriculas
+                matriculaModel.findAll({
+                    where: {
+                        id_suscriptor: req.params.idSubscriber
+                    },
+                    attributes: ['id_matricula', 'estado_matricula', 'id_tipo_de_servicio', 'id_numero_predial']
+                })
+                .then((resultEnrollments) => {
+                    let countEnrollments = 0;
+                    resultEnrollments.forEach(enrollment => {
+                        tipoDeServicioModel.findOne({
+                            where: {
+                                id_tipo_de_servicio: enrollment.dataValues.id_tipo_de_servicio
+                            },
+                            attributes: ['nombre_servicio']
+                        })
+                        .then((resultTipoDeServicio) => {
+                            enrollment.dataValues.nombre_servicio = resultTipoDeServicio.dataValues.nombre_servicio
+                            predioModel.findOne({
+                                where: {
+                                    id_numero_predial: enrollment.dataValues.id_numero_predial
+                                },
+                                attributes: ['nombre_predio']
+                            })
+                            .then((resultProperty) => {
+                                enrollment.dataValues.nombre_predio = resultProperty.dataValues.nombre_predio
+                                countEnrollments++;
+                                console.log(enrollment.dataValues);
+                                if (countEnrollments === resultEnrollments.length) {
+                                    result.dataValues.enrollments = resultEnrollments;
+                                    console.log(result.dataValues)
+                                    return res.status(200).json({ok: true, result: result});
+                                }
+                            })
+                            .catch((err) => {
+                                res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - predios', error: err});
+                            })
+                        })
+                        .catch((err) => {
+                            res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - tipo de servicio', error: err});
+                        });
+                    });
+                })
+                .catch((err) => {
+                    res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - matriculas', error: err});
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - tipos de documento', error: err});
             });
         } else {
             res.status(200).json({ok: false, message: 'El Id registrado no existe'});
         }
     }).catch((err) => {
-        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - suscriptores', error: err});
     });
 });
 
