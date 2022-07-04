@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AndrewDelRio/backendSistemaFacturacionAcueductoGMG.git"
+    "url": "https://github.com/AndrewDelRio/https://github.com/AndrewDelRio/BackendSistemaFacturacionAcuedictoGMG.git"
   },
   "author": "Andres Del Rio",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AndrewDelRio/backendSistemaFacturacionAcueductoGMG/issues"
+    "url": "https://github.com/AndrewDelRio/https://github.com/AndrewDelRio/BackendSistemaFacturacionAcuedictoGMG/issues"
   },
-  "homepage": "https://github.com/AndrewDelRio/backendSistemaFacturacionAcueductoGMG#readme",
+  "homepage": "https://github.com/AndrewDelRio/https://github.com/AndrewDelRio/BackendSistemaFacturacionAcuedictoGMG#readme",
   "dependencies": {
     "body-parse": "^0.1.0",
     "connect-flash": "^0.1.1",
