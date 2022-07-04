@@ -3,6 +3,7 @@ const lugarController = express();
 const { Op } = require("sequelize");
 const {lugarModel} = require('../models/LugaresModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
+const { QueryTypes } = require('@sequelize/core');
 
 // obtener los departamentos
 lugarController.get('/getDepartments', (req, res) => {
@@ -81,6 +82,26 @@ lugarController.get('/getVeredasByMunicipio', (req, res) => {
         }
     }).catch((err) => {
         res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+    });
+});
+
+lugarController.get('/getNamePlace', (req, res) => {
+    const id_lugar = 2002;
+    const address = "";
+    const query = "call obtain_property_address(:id_lugar, @address);";
+    const resultado = "SELECT @address;"
+    lugarModel.sequelize.query(query,{
+    type: QueryTypes.select,
+    replacements:{id_lugar: 2004, address:''}
+ }  
+    ).then((result) => {
+        lugarModel.sequelize.query(resultado,
+            {
+            type: QueryTypes.select
+            }  
+            ).then((result) => {
+                return res.status(200).json({ok: true, result: result});
+            });
     });
 });
 
