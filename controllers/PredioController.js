@@ -54,12 +54,11 @@ predioController.post("/addPoperty", [JWTokenVerification], (req, res) => {
     direccion_predio: req.body.direccion_predio,
     nombre_predio: req.body.nombre_predio,
     area_predio: Number(req.body.area_predio),
-    area_construccion_predio: Number(req.body.area_construccion_predio),
+    area_construccion: Number(req.body.area_construccion_predio),
     destino_economico_predio: req.body.destino_economico_predio,
     id_lugar: Number(req.body.id_lugar),
   });
-  predioModel
-    .findOne({
+  predioModel.findOne({
       where: {
         [Op.or]: [{ id_numero_predial: req.body.id_numero_predial }],
       },
