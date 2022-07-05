@@ -26,13 +26,13 @@ lugarController.get('/getDepartments', (req, res) => {
 });
 
 // obtener los municipios de un departamento
-lugarController.get('/getMunicipiosByDepartments', (req, res) => {
+lugarController.get('/getSideWalksByDepartments/:id_department', (req, res) => {
     lugarModel.findAll({
         attributes: ['nombre_lugar'],
         where: {
             [Op.and]: [
-                { id_ubicacion : req.body.id_lugar,
-                    tipo_lugar: 'MP'},
+                { id_ubicacion : req.params.id_department,
+                tipo_lugar: 'MP'},
             ]
         }
     }).then((result) => {
@@ -47,11 +47,11 @@ lugarController.get('/getMunicipiosByDepartments', (req, res) => {
 });
 
 // obtener el id de un lugar dado su nombre
-lugarController.get('/lugarGet', (req, res) => {
+lugarController.get('/lugarGet/:placeName', (req, res) => {
     lugarModel.findOne({
         attributes:['id_lugar'],
         where: {
-                nombre_lugar: req.body.nombre_lugar,
+                nombre_lugar: req.params.placeName,
         }
     }).then((result) => {
         if (result) {
@@ -65,12 +65,12 @@ lugarController.get('/lugarGet', (req, res) => {
 });
 
 // obtener las veredas de un municipio
-lugarController.get('/getVeredasByMunicipio', (req, res) => {
+lugarController.get('/getSideWalkByMunicipality/:idSideWalk', (req, res) => {
     lugarModel.findAll({
         attributes: ['nombre_lugar'],
         where: {
             [Op.and]: [
-                { id_ubicacion : req.body.id_lugar,
+                { id_ubicacion : req.params.idSideWalk,
                     tipo_lugar: 'VD'},
             ]
         }
