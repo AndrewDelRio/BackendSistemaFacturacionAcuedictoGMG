@@ -17,19 +17,13 @@ predioController.get("/getProperty/:idProperty",[JWTokenVerification],(req, res)
         if (result) {
           const id_lugar = result.id_lugar;
           const address= '';
-          const query = " call obtain_property_address(:id_lugar,@address)";
-          const resultado = "SELECT @address AS direccion;";
+          const query = " call obtain_property_address(:id_lugar)";
           lugarModel.sequelize.query(
             query,
             {type: QueryTypes.select,
             replacements:{id_lugar: result.id_lugar, address:''}
         }).then((resultProperty) =>{
-            lugarModel.sequelize.query(resultado,
-                {
-                type: QueryTypes.select
-                }  
-                ).then((resultAddress) => {
-                    result.dataValues.direccion_predio = resultAddress[0];
+          result.dataValues.direccion_predio = resultProperty[0];
                     const id_numero_predial = result.id_numero_predial;
                     const queryMatricules = "call obtain_matricula_by_property(:id_numero_predial);"
                     matriculaModel.sequelize.query(
@@ -40,7 +34,6 @@ predioController.get("/getProperty/:idProperty",[JWTokenVerification],(req, res)
                         result.dataValues.matriculas = resultMatriculas;
                         res.status(200).json({ ok: true, result: result });
                     })
-                });
         });
         
         } else {
