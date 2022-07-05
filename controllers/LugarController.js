@@ -65,12 +65,12 @@ lugarController.get('/lugarGet/:placeName', (req, res) => {
 });
 
 // obtener las veredas de un municipio
-lugarController.get('/getSideWalkByMunicipality/:idSideWalk', (req, res) => {
+lugarController.get('/getSideWalkByMunicipality/:id_municipality', (req, res) => {
     lugarModel.findAll({
         attributes: ['id_lugar','nombre_lugar'],
         where: {
             [Op.and]: [
-                { id_ubicacion : req.params.idSideWalk,
+                { id_ubicacion : req.params.id_municipality,
                     tipo_lugar: 'VD'},
             ]
         }
