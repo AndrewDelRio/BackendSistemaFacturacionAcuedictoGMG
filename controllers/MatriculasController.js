@@ -2,20 +2,56 @@ const express = require('express');
 const matriculaController = express();
 const { Op } = require("sequelize");
 const {matriculaModel} = require('../models/MatriculasModel');
+const {medidorModel} = require('../models/MedidorModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
+const { QueryTypes } = require('@sequelize/core');
 
 
 // obtener una matricula
-matriculaController.get('/matriculaGet',[JWTokenVerification], (req, res) => {
+matriculaController.get('/getEnrollment/:id_enrollment',[JWTokenVerification], (req, res) => {
     matriculaModel.findOne({
         where: {
             [Op.or]: [
-                { id_matricula: req.body.id_matricula},
+                { id_matricula: req.params.id_enrollment},
             ]
         }
     }).then((result) => {
         if (result) {
-            return res.status(200).json({ok: true, result: result});
+            const id_matricula = result.id_matricula;
+            const query = " call obtain_measurer_by_id_enrollment(:id_matricula)";
+            medidorModel.sequelize.query(
+                query,
+                {type: QueryTypes.select,
+                replacements:{id_matricula: result.id_matricula}}
+            ).then((resultMedidores) =>{
+                result.dataValues.medidores = resultMedidores[0];
+                const querySubscriber = " call get_name_subscriber_by_id_matricula(:id_matricula);"
+                medidorModel.sequelize.query(
+                    querySubscriber,
+                    {type: QueryTypes.select,
+                    replacements:{id_matricula: result.id_matricula}}
+                ).then((resultSubscriber) =>{
+                    result.dataValues.subscriber = resultSubscriber[0];
+                    const query = " call get_property_name_by_id_matricula(:id_matricula);"
+                    medidorModel.sequelize.query(
+                        query,
+                        {type: QueryTypes.select,
+                        replacements:{id_matricula: result.id_matricula}}
+                    ).then((resultProperty) =>{
+                        result.dataValues.propertyName = resultProperty[0];
+                        const query = " call get_service_type_by_id_enrollment(:id_matricula);"
+                    medidorModel.sequelize.query(
+                        query,
+                        {type: QueryTypes.select,
+                        replacements:{id_matricula: result.id_matricula}}
+                    ).then((resultServiceType) =>{
+                        console.log(resultServiceType[0]);
+                        result.dataValues.serviceType = resultServiceType[0];
+                        return res.status(200).json({ok: true, result: result});
+                    });
+                    });
+                });
+            });
         } else {
             res.status(200).json({ok: false, message: 'El Id registrado no existe'});
         }

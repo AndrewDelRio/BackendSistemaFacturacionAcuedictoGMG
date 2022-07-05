@@ -123,7 +123,7 @@ suscriptorController.post('/addSubscriber',[JWTokenVerification], (req, res) => 
 });
 
 //editar datos del suscriptor
- suscriptorController.post('/suscriptorUpdate',[JWTokenVerification], (req, res) => {
+ suscriptorController.post('/updateSubscriber',[JWTokenVerification], (req, res) => {
     suscriptorModel.findOne({
         where: {
             [Op.or]: [

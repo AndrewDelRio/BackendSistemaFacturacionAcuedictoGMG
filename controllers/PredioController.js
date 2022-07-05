@@ -15,8 +15,8 @@ predioController.get("/getProperty/:idProperty",[JWTokenVerification],(req, res)
         },
       }).then((result) => {
         if (result) {
-            const id_lugar = result.id_lugar;
-            const address= '';
+          const id_lugar = result.id_lugar;
+          const address= '';
           const query = " call obtain_property_address(:id_lugar,@address)";
           const resultado = "SELECT @address AS direccion;";
           lugarModel.sequelize.query(
