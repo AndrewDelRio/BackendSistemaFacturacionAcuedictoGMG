@@ -36,37 +36,41 @@ suscriptorController.get('/getSubscriber/:idSubscriber',[JWTokenVerification], (
                 })
                 .then((resultEnrollments) => {
                     let countEnrollments = 0;
-                    resultEnrollments.forEach(enrollment => {
-                        tipoDeServicioModel.findOne({
-                            where: {
-                                id_tipo_de_servicio: enrollment.dataValues.id_tipo_de_servicio
-                            },
-                            attributes: ['nombre_servicio']
-                        })
-                        .then((resultTipoDeServicio) => {
-                            enrollment.dataValues.nombre_servicio = resultTipoDeServicio.dataValues.nombre_servicio
-                            predioModel.findOne({
+                    if (resultEnrollments.length > 0) {
+                        resultEnrollments.forEach(enrollment => {
+                            tipoDeServicioModel.findOne({
                                 where: {
-                                    id_numero_predial: enrollment.dataValues.id_numero_predial
+                                    id_tipo_de_servicio: enrollment.dataValues.id_tipo_de_servicio
                                 },
-                                attributes: ['nombre_predio']
+                                attributes: ['nombre_servicio']
                             })
-                            .then((resultProperty) => {
-                                enrollment.dataValues.nombre_predio = resultProperty.dataValues.nombre_predio
-                                countEnrollments++;
-                                if (countEnrollments === resultEnrollments.length) {
-                                    result.dataValues.enrollments = resultEnrollments;
-                                    return res.status(200).json({ok: true, result: result});
-                                }
+                            .then((resultTipoDeServicio) => {
+                                enrollment.dataValues.nombre_servicio = resultTipoDeServicio.dataValues.nombre_servicio
+                                predioModel.findOne({
+                                    where: {
+                                        id_numero_predial: enrollment.dataValues.id_numero_predial
+                                    },
+                                    attributes: ['nombre_predio']
+                                })
+                                .then((resultProperty) => {
+                                    enrollment.dataValues.nombre_predio = resultProperty.dataValues.nombre_predio
+                                    countEnrollments++;
+                                    if (countEnrollments === resultEnrollments.length) {
+                                        result.dataValues.enrollments = resultEnrollments;
+                                        return res.status(200).json({ok: true, result: result});
+                                    }
+                                })
+                                .catch((err) => {
+                                    res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - predios', error: err});
+                                })
                             })
                             .catch((err) => {
-                                res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - predios', error: err});
-                            })
-                        })
-                        .catch((err) => {
-                            res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - tipo de servicio', error: err});
+                                res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - tipo de servicio', error: err});
+                            });
                         });
-                    });
+                    } else {
+                        return res.status(200).json({ok: true, result: result});
+                    }
                 })
                 .catch((err) => {
                     res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos - matriculas', error: err});
