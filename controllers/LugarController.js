@@ -26,7 +26,7 @@ lugarController.get('/getDepartments', (req, res) => {
 });
 
 // obtener los municipios de un departamento
-lugarController.get('/getSideWalksByDepartments/:id_department', (req, res) => {
+lugarController.get('/getMunicipalityByDepartments/:id_department', (req, res) => {
     lugarModel.findAll({
         attributes: ['nombre_lugar'],
         where: {
