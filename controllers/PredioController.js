@@ -66,7 +66,7 @@ predioController.post("/addPoperty", [JWTokenVerification], (req, res) => {
     })
     .then((result) => {
       if (!result) {
-        newPredio.save().then((predioSaved) => {
+        newPredio.save().then(() => {
             res.status(200).json({
                 ok: true,
                 message: "El predio ha sido agregado correctamente",
