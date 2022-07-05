@@ -61,7 +61,7 @@ matriculaController.get('/getEnrollment/:id_enrollment',[JWTokenVerification], (
 });
 
 // crear una matricula
-matriculaController.post('/matriculaAdd',[JWTokenVerification], (req, res) => {
+matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
     let newMatricula = matriculaModel.build({
         id_matricula : Number(req.body.id_matricula),
         fecha_adjudicación: req.body.fecha_adjudicación,
@@ -94,7 +94,7 @@ matriculaController.post('/matriculaAdd',[JWTokenVerification], (req, res) => {
 });
 
 //modificar matricula: predio, suscriptor, estado, tipo de servicio,id medidor
- matriculaController.post('/matriculaUpdate',[JWTokenVerification], (req, res) => {
+ matriculaController.post('/updateEnrollment',[JWTokenVerification], (req, res) => {
     matriculaModel.findOne({
         where: {
             [Op.or]: [
@@ -122,7 +122,7 @@ matriculaController.post('/matriculaAdd',[JWTokenVerification], (req, res) => {
 });
 
 // obtener todas las matriculas de un suscriptor
-matriculaController.get('/matriculaGetAllBySuscriptor',[JWTokenVerification], (req, res) => {
+matriculaController.get('/getAll',[JWTokenVerification], (req, res) => {
     matriculaModel.findAll({
         where: {
                  id_suscriptor: req.body.id_suscriptor,
@@ -138,8 +138,8 @@ matriculaController.get('/matriculaGetAllBySuscriptor',[JWTokenVerification], (r
     });
 });
 
-// obtener todas las matriculas de un predio
-matriculaController.get('/matriculaGetAllByPredio',[JWTokenVerification], (req, res) => {
+// obtener todas las matriculas de un predio --> sin consumir
+matriculaController.get('/getEnrollmentsBySubscriber',[JWTokenVerification], (req, res) => {
     matriculaModel.findAll({
         where: {
                  id_numero_predial: req.body.id_numero_predial,
