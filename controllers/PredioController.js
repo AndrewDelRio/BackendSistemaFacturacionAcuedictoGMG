@@ -112,14 +112,13 @@ predioController.post("/updateProperty", [JWTokenVerification], (req, res) => {
         result.id_tipo_de_servicio = req.body.id_tipo_de_servicio;
         result.id_medidor = req.body.id_medidor;
         result
-          .save()
-          .then((matriculaModified) => {
+          .save().then((propertyModified) => {
             res
               .status(200)
               .json({
                 ok: true,
                 message:
-                  "Los datos de la matricula han sido modificados correctamente",
+                  "Los datos del predio han sido modificados correctamente",
               });
           })
           .catch((err) => {
@@ -127,12 +126,12 @@ predioController.post("/updateProperty", [JWTokenVerification], (req, res) => {
               .status(500)
               .json({
                 ok: false,
-                message: "Error al editar los datos de la Matricula",
+                message: "Error al editar los datos del predio",
                 error: err,
               });
           });
       } else {
-        res.status(200).json({ ok: false, message: "La Matricula no existe" });
+        res.status(200).json({ ok: false, message: "El predio no existe" });
       }
     })
     .catch((err) => {
