@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/AndrewDelRio/BackendSistemaFacturacionAcuedictoGMG.git#readme",
   "dependencies": {
+    "@sequelize/core": "^7.0.0-alpha.10",
     "body-parse": "^0.1.0",
     "connect-flash": "^0.1.1",
     "cors": "^2.8.5",
