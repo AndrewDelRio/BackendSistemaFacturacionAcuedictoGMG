@@ -3,6 +3,8 @@ const matriculaController = express();
 const { Op } = require("sequelize");
 const {matriculaModel} = require('../models/MatriculasModel');
 const {medidorModel} = require('../models/MedidorModel');
+const {suscriptorModel} = require('../models/SuscriptorModel');
+const {predioModel} = require('../models/PrediosModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
 const { QueryTypes } = require('@sequelize/core');
 
@@ -156,7 +158,7 @@ matriculaController.get('/getEnrollmentsBySubscriber',[JWTokenVerification], (re
 });
 
 //obtener los estados de la matricula
-matriculaController.get('/getMatState',[JWTokenVerification], (req, res) => {
+matriculaController.get('/getEnrollmentState',[JWTokenVerification], (req, res) => {
     let matState = ['Adjudicada','En instalacion','Activa',
     'Suspension Impuesta','Suspension temporal','Cancelada'];
     return res.status(200).json({ok: true, result: matState});
