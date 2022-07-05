@@ -8,7 +8,7 @@ const { QueryTypes } = require('@sequelize/core');
 // obtener los departamentos
 lugarController.get('/getDepartments', (req, res) => {
     lugarModel.findAll({
-        attributes: ['nombre_lugar'],
+        attributes: ['id_lugar', 'nombre_lugar'],
         where: {
             [Op.or]: [
                 { tipo_lugar: 'DP'},
@@ -28,7 +28,7 @@ lugarController.get('/getDepartments', (req, res) => {
 // obtener los municipios de un departamento
 lugarController.get('/getMunicipalityByDepartments/:id_department', (req, res) => {
     lugarModel.findAll({
-        attributes: ['nombre_lugar'],
+        attributes: ['id_lugar','nombre_lugar'],
         where: {
             [Op.and]: [
                 { id_ubicacion : req.params.id_department,
@@ -49,7 +49,7 @@ lugarController.get('/getMunicipalityByDepartments/:id_department', (req, res) =
 // obtener el id de un lugar dado su nombre
 lugarController.get('/lugarGet/:placeName', (req, res) => {
     lugarModel.findOne({
-        attributes:['id_lugar'],
+        attributes:['id_lugar','nombre_lugar'],
         where: {
                 nombre_lugar: req.params.placeName,
         }
@@ -67,7 +67,7 @@ lugarController.get('/lugarGet/:placeName', (req, res) => {
 // obtener las veredas de un municipio
 lugarController.get('/getSideWalkByMunicipality/:idSideWalk', (req, res) => {
     lugarModel.findAll({
-        attributes: ['nombre_lugar'],
+        attributes: ['id_lugar','nombre_lugar'],
         where: {
             [Op.and]: [
                 { id_ubicacion : req.params.idSideWalk,
