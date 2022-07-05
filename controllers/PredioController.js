@@ -112,7 +112,7 @@ predioController.post("/updateProperty", [JWTokenVerification], (req, res) => {
         result.id_tipo_de_servicio = req.body.id_tipo_de_servicio;
         result.id_medidor = req.body.id_medidor;
         result
-          .save().then((propertyModified) => {
+          .save().then(() => {
             res
               .status(200)
               .json({
