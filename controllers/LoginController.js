@@ -37,7 +37,7 @@ loginController.post("/login", (req, res) => {
             return res.status(200).json({
               ok: true,
               token: token,
-              message: result.nombres_usuario,
+              message: {username:result.nombres_usuario, id_user: result.id_usuario, id_rol : result.id_rol}
             });
           }
       }
