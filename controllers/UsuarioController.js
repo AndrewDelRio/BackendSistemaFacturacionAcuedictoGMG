@@ -33,16 +33,24 @@ userController.post('/updateUserContactDates',[JWTokenVerification], (req, res) 
 });
 
 //actualizar contrasenia del usuario
+/**
+ * RETURN 0 --> Contrasenia nueva y Contrasenia anterior son iguales
+    RETURN 1 --> Contrasenia_actual coincide con la registrada en el sistema y es diferente de la nueva --> la actualiza
+    RETURN 2 --> Contrasenia_actual no coincide con la registrada en el sistema
+ */
 userController.post('/updatePasswordUser', (req, res) => {
-    const id_usuario = 0;
-    const new_password = "";
-    const query = "SELECT update_password_user(:id_usuario,:new_password) AS update_password";
+    const idUsuario = 0;
+    const actualPassword = "";
+    const newPassword = "";
+    const query = "SELECT update_password_user(:idUsuario,:actualPassword,:newPassword) AS update_password";
     userModel.sequelize.query(query,{
         type: QueryTypes.select,
-        replacements:{id_usuario: req.body.id_usuario,
-        new_password : req.body.new_password}
+        replacements:{idUsuario: req.body.id_usuario,
+            actualPassword: req.body.actual_password,
+        newPassword : req.body.new_password,
+    },
     }).then((result) =>{
-        return res.status(200).json({ok: true, result: result[0]});
+        return res.status(200).json({ok: true, message: result});
     });
 });
 

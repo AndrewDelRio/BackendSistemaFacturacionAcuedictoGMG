@@ -47,7 +47,7 @@ predioController.get("/getProperty/:idProperty",[JWTokenVerification],(req, res)
 );
 
 // crear un predio
-predioController.post("/addPoperty",[JWTokenVerification], (req, res) => {
+predioController.post("/addProperty",[JWTokenVerification], (req, res) => {
   let newPredio = predioModel.build({
     id_numero_predial: req.body.id_numero_predial,
     numero_predial_anterior: req.body.numero_predial_anterior,
