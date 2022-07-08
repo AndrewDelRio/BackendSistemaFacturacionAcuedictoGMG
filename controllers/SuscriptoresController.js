@@ -135,7 +135,7 @@ suscriptorController.post('/addSubscriber',[JWTokenVerification], (req, res) => 
             result.direccion_suscriptor  = req.body.direccion_suscriptor;
             result.correo_electronico_suscriptor = req.body.correo_electronico_suscriptor;
             result.telefono_suscriptor = req.body.telefono_suscriptor;
-            result.save().then((suscriptorModified) => {
+            result.save().then(() => {
                 res.status(200).json({ok: true, message: 'Los datos del suscriptor han sido modificados correctamente'});
             }).catch((err) => {
                 res.status(500).json({ok: false, message: 'Error al editar los datos del Suscriptor', error: err});
