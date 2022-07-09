@@ -19,13 +19,13 @@ userController.post('/updateUserContactDates',[JWTokenVerification], (req, res) 
             result.direccion_suscriptor  = req.body.direccion_suscriptor;
             result.correo_electronico_suscriptor = req.body.correo_electronico_suscriptor;
             result.telefono_suscriptor = req.body.telefono_suscriptor;
-            result.save().then((suscriptorModified) => {
+            result.save().then(() => {
                 res.status(200).json({ok: true, message: 'Los datos del usuario han sido modificados correctamente'});
             }).catch((err) => {
-                res.status(500).json({ok: false, message: 'Error al editar los datos del Suscriptor', error: err});
+                res.status(500).json({ok: false, message: 'Error al editar los datos del Usuario', error: err});
             });
         } else {
-            res.status(200).json({ok: false, message: 'El Suscriptor no existe'});
+            res.status(200).json({ok: false, message: 'El Usuario no existe'});
         }
     }).catch((err) => {
         res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
@@ -35,7 +35,7 @@ userController.post('/updateUserContactDates',[JWTokenVerification], (req, res) 
 //
 /**
  * actualizar contrasenia del usuario
- *  RETURN 0 --> Clave nueva y clave anterior de la base de datos son iguales
+ *  RETURN 0 --> Contrasenia_nueva y contrasenia_anterior de la base de datos son iguales
     RETURN 1 --> Contrasenia actual coincide con la registrada en el sistema y la actualiza
     RETURN 2 --> Contrasenia no coincide con la del sistema
  */
