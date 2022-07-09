@@ -3,8 +3,7 @@ const matriculaController = express();
 const { Op } = require("sequelize");
 const {matriculaModel} = require('../models/MatriculasModel');
 const {medidorModel} = require('../models/MedidorModel');
-const {suscriptorModel} = require('../models/SuscriptorModel');
-const {predioModel} = require('../models/PrediosModel');
+const {historicoMatriculaModel} = require('../models/HistoricosMatricula');
 const {JWTokenVerification} = require('../middleware/Authentication');
 const { QueryTypes } = require('@sequelize/core');
 
@@ -47,7 +46,6 @@ matriculaController.get('/getEnrollment/:id_enrollment',[JWTokenVerification], (
                         {type: QueryTypes.select,
                         replacements:{id_matricula: result.id_matricula}}
                     ).then((resultServiceType) =>{
-                        console.log(resultServiceType[0]);
                         result.dataValues.serviceType = resultServiceType[0];
                         return res.status(200).json({ok: true, result: result});
                     });
@@ -64,9 +62,10 @@ matriculaController.get('/getEnrollment/:id_enrollment',[JWTokenVerification], (
 
 // crear una matricula
 matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
-    let newMatricula = matriculaModel.build({
-        id_matricula : Number(req.body.id_matricula),
-        fecha_adjudicación: req.body.fecha_adjudicación,
+    console.log(req.body);
+    let newEnrollment = matriculaModel.build({
+        id_matricula : null,
+        fecha_adjudicacion: new Date(),
         estado_matricula : req.body.estado_matricula,
         id_tipo_de_servicio : Number(req.body.id_tipo_de_servicio),
         id_numero_predial: req.body.id_numero_predial,
@@ -74,26 +73,27 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
         id_medidor : Number(req.body.id_medidor),
         id_financiacion:Number(req.body.id_financiacion)
     });
-    matriculaModel.findOne({
-        where: {
-            [Op.or]: [
-                { id_matricula: req.body.id_matricula},
-            ]
-        }
-    }).then((result) => {
-        if (!result) {
-            newMatricula.save().then((matriculaSaved) => {
-                res.status(200).json({ok: true, message: 'La matricula ha sido agregado correctamente'});
-            }).catch((err) => {
-                res.status(500).json({ok: false, message: 'Error al agregar la matricula', error: err});
+    newEnrollment.save().then((result) =>{
+        if (result) {
+            console.log(new Date());
+            let newHistoricEnrollment = historicoMatriculaModel.build({
+                id_historico_matricula: null,
+                fecha_operacion: new Date(),
+                tipo_operacion:'ADJ',
+                id_matricula:result.id_matricula
             });
-        } else {
-            res.status(200).json({ok: false, message: 'La matricula ya existe'});
-        }
-    }).catch((err) => {
-        res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+            newHistoricEnrollment.save().then((rsult) =>{
+                if (result) {
+                    res.status(200).json({ok: true, message: 'La matricula ha sido agregado correctamente con el ID: ' + result.id_matricula});
+                }else{
+                    res.status(500).json({ok: false, message: 'Error al agregar la matricula', error: err});
+                }
+            });
+        }   
+    }).catch((err) =>{
+        res.status(500).json({ok: false, message: 'Error al conectarse a la DB', error: err});
     });
-});
+}); 
 
 //modificar matricula: predio, suscriptor, estado, tipo de servicio,id medidor
  matriculaController.post('/updateEnrollment',[JWTokenVerification], (req, res) => {
