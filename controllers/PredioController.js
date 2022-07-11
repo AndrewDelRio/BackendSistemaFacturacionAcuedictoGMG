@@ -35,7 +35,6 @@ predioController.get("/getProperty/:idProperty",[JWTokenVerification],(req, res)
                         res.status(200).json({ ok: true, result: result });
                     })
         });
-        
         } else {
             res.status(200).json({ ok: false, message: "El Id del predio no existe" });
         }
@@ -45,6 +44,22 @@ predioController.get("/getProperty/:idProperty",[JWTokenVerification],(req, res)
       });
   }
 );
+
+//validar si un predio existen
+//obtener todos los predios
+predioController.get("/getPropertyByID/:id_property", (req, res) => {
+  predioModel.findOne({
+    where: {id_numero_predial : req.params.id_property},
+
+      attributes: ["id_numero_predial", "nombre_predio"],
+    })
+    .then((result) => {
+      return res.status(200).json({ ok: true, result: result });
+    })
+    .catch((err) => {
+      return res.status(400).json({ ok: false, error: err });
+    });
+});
 
 // crear un predio
 predioController.post("/addProperty",[JWTokenVerification], (req, res) => {
