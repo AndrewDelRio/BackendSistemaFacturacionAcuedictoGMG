@@ -7,7 +7,7 @@ const {JWTokenVerification} = require('../middleware/Authentication');
 // obtener todos los tipos de servicio
 tipoDeServicioController.get('/allServiceType', (req, res) => {
     tipoDeServicioModel.findAll({
-        attributes: ['nombre_servicio']
+        attributes: ['id_tipo_de_servicio','nombre_servicio']
     }).then((result) => {
         return res.status(200).json({ok: true, result: result});
     }).catch((err) => {
