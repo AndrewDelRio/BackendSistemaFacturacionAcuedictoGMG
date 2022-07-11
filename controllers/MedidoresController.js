@@ -41,7 +41,7 @@ medidorController.post('/addMeasurer',[JWTokenVerification],(req, res) => {
     });
 });
 
-//obtener todos los suscriptores
+//obtener todos los medidores
 medidorController.get('/getAllMeasurers', [JWTokenVerification], (req, res) => {
     medidorModel.findAll(
         { 
