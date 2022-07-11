@@ -7,7 +7,8 @@ const attributes = {
     id_medidor:{
         type: DataTypes.INTEGER,
         primaryKey: true,
-        allowNull:false
+        allowNull:false,
+        autoIncrement:true
     },
     marca_medidor:{
         type: DataTypes.STRING(45),
