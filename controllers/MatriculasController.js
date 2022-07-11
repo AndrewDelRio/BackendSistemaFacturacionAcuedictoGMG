@@ -83,7 +83,7 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
             });
             newHistoricEnrollment.save().then((historicResult) =>{
                 if (historicResult) {
-                    res.status(200).json({ok: true, message: 'La matricula ha sido agregada correctamente', result:result.id_matricula});
+                    res.status(200).json({ok: true, message: 'La matricula ha sido agregada correctamente con el ID: ' + result.id_matricula, result:result.id_matricula});
                 }else{
                     res.status(500).json({ok: false, message: 'Error al agregar la matricula', error: err});
                 }
