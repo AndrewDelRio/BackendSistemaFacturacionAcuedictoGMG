@@ -160,4 +160,24 @@ suscriptorController.get('/getAllSubscriber', [JWTokenVerification], (req, res) 
         return res.status(400).json({ok: false, error: err});
     });
 });
+
+//validar si un suscriptor existe
+suscriptorController.get("/getSubscriberByID/:id_subscriber", (req, res) => {
+    suscriptorModel.findOne({
+      where: {id_suscriptor : req.params.id_subscriber},
+  
+        attributes: ["id_suscriptor", "primer_nombre_suscriptor","primer_apellido_suscriptor"],
+      })
+      .then((result) => {
+        if (result) {
+            return res.status(200).json({ ok: true, result: result });
+        } else {
+            return res.status(400).json({ ok: false, message: "No existen registros de Suscriptores asociados a la búsqueda" });
+        }
+        
+      })
+      .catch((err) => {
+        return res.status(400).json({ ok: false, error: err });
+      });
+  });
 module.exports = {suscriptorController};
