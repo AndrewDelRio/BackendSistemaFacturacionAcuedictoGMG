@@ -25,7 +25,7 @@ medidorController.get('/getMeasurer', (req, res) => {
 });
 
 // crear un medidor
-medidorController.post('/addMeasurer',/**[JWTokenVerification],*/ (req, res) => {
+medidorController.post('/addMeasurer',[JWTokenVerification],(req, res) => {
     let newMedidor = medidorModel.build({
         id_medidor : null,
         marca_medidor: req.body.marca_medidor,
@@ -38,6 +38,19 @@ medidorController.post('/addMeasurer',/**[JWTokenVerification],*/ (req, res) => 
             res.status(500).json({ok: false, message: 'Error al agregar el medidor', error: err});
         }).catch((err) => {
             res.status(500).json({ok: false, message: 'Error al conectarse a la base de datos', error: err});
+    });
+});
+
+//obtener todos los suscriptores
+medidorController.get('/getAllMeasurers', /**[JWTokenVerification],*/ (req, res) => {
+    medidorModel.findAll(
+        { 
+            attributes:['id_medidor','marca_medidor','porcentaje_calibracion','fecha_calibracion']
+        }
+    ).then((result) => {
+        return res.status(200).json({ok: true, result: result});
+    }).catch((err) => {
+        return res.status(400).json({ok: false, error: err});
     });
 });
 
