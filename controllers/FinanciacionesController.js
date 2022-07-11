@@ -3,7 +3,7 @@ const financiacingController = express();
 const {financiacionModel} = require('../models/FinanciacionesModel');
 const {JWTokenVerification} = require('../middleware/Authentication');
 
-// obtener una matricula
+// obtener todas las funanciaciones
 financiacingController.get('/getAllFinancing',[JWTokenVerification],(req, res) => {
     financiacionModel.findAll({
         attributes: ['id_financiacion','valor_financiacion','cuotas_financiacion','porcentaje_interes']

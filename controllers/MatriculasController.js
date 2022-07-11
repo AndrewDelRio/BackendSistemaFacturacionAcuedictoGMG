@@ -62,11 +62,10 @@ matriculaController.get('/getEnrollment/:id_enrollment',[JWTokenVerification], (
 
 // crear una matricula
 matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
-    console.log(req.body);
     let newEnrollment = matriculaModel.build({
         id_matricula : null,
         fecha_adjudicacion: new Date(),
-        estado_matricula : req.body.estado_matricula,
+        estado_matricula : 'ADJUDICADA',
         id_tipo_de_servicio : Number(req.body.id_tipo_de_servicio),
         id_numero_predial: req.body.id_numero_predial,
         id_suscriptor: Number(req.body.id_suscriptor),
