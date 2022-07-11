@@ -81,9 +81,9 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
                 tipo_operacion:'ADJ',
                 id_matricula:result.id_matricula
             });
-            newHistoricEnrollment.save().then((rsult) =>{
-                if (result) {
-                    res.status(200).json({ok: true, message: 'La matricula ha sido agregado correctamente con el ID: ' + result.id_matricula});
+            newHistoricEnrollment.save().then((historicResult) =>{
+                if (historicResult) {
+                    res.status(200).json({ok: true, message: 'La matricula ha sido agregada correctamente', result:result.id_matricula});
                 }else{
                     res.status(500).json({ok: false, message: 'Error al agregar la matricula', error: err});
                 }
@@ -109,6 +109,7 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
             result.estado_matricula = req.body.estado_matricula;
             result.id_tipo_de_servicio = req.body.id_tipo_de_servicio;
             result.id_medidor = req.body.id_medidor;
+            // validar que el medidor no esté asociado a otra matricula
             result.save().then((matriculaModified) => {
                 res.status(200).json({ok: true, message: 'Los datos de la matricula han sido modificados correctamente'});
             }).catch((err) => {
