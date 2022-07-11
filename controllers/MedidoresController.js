@@ -42,7 +42,7 @@ medidorController.post('/addMeasurer',[JWTokenVerification],(req, res) => {
 });
 
 //obtener todos los suscriptores
-medidorController.get('/getAllMeasurers', /**[JWTokenVerification],*/ (req, res) => {
+medidorController.get('/getAllMeasurers', [JWTokenVerification], (req, res) => {
     medidorModel.findAll(
         { 
             attributes:['id_medidor','marca_medidor','porcentaje_calibracion','fecha_calibracion']
