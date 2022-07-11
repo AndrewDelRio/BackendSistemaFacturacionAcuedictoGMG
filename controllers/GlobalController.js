@@ -10,6 +10,7 @@ const {tipoDeServicioController} = require('./TiposDeServicioController');
 const {medidorController} = require('./MedidoresController');
 const{tipoDeDocumentoController} = require('./TiposDeDocumentoController');
 const {userController} = require('./UsuarioController');
+const{financiacingController} = require('./FinanciacionesController');
 
 globalController.use(loginController);
 globalController.use(suscriptorController);
@@ -21,5 +22,6 @@ globalController.use(tipoDeServicioController);
 globalController.use(medidorController);
 globalController.use(tipoDeDocumentoController);
 globalController.use(userController);
+globalController.use(financiacingController);
 
 module.exports = {globalController};
