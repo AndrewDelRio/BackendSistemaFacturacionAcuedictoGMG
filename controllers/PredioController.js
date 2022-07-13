@@ -115,34 +115,28 @@ predioController.post("/addProperty",[JWTokenVerification], (req, res) => {
 });
 
 //modificar predio: nombre predio, destino economico, area construida
-predioController.post("/updateProperty", [JWTokenVerification], (req, res) => {
+predioController.post("/updateProperty", /**[JWTokenVerification],*/ (req, res) => {
   predioModel
     .findOne({
       where: {
-        [Op.or]: [{ id_matricula: req.body.id_matricula }],
+        [Op.or]: [{ id_numero_predial: req.body.id_numero_predial }],
       },
     })
     .then((result) => {
       if (result) {
-        result.id_numero_predial = req.body.id_numero_predial;
-        result.id_suscriptor = req.body.id_suscriptor;
-        result.estado_matricula = req.body.estado_matricula;
-        result.id_tipo_de_servicio = req.body.id_tipo_de_servicio;
-        result.id_medidor = req.body.id_medidor;
-        result
-          .save().then(() => {
-            res
-              .status(200)
-              .json({
+        result.nombre_predio = req.body.nombre_predio;
+        result.destino_economico_predio = req.body.destino_economico_predio;
+        result.area_predio = Number(req.body.area_predio);
+        result.area_construccion = Number(req.body.area_construccion);
+        result.save().then(() => {
+            res.status(200).json({
                 ok: true,
                 message:
                   "Los datos del predio han sido modificados correctamente",
               });
           })
           .catch((err) => {
-            res
-              .status(500)
-              .json({
+            res.status(500).json({
                 ok: false,
                 message: "Error al editar los datos del predio",
                 error: err,
