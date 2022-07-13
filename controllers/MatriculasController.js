@@ -74,7 +74,6 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
     });
     newEnrollment.save().then((result) =>{
         if (result) {
-            console.log(new Date());
             let newHistoricEnrollment = historicoMatriculaModel.build({
                 id_historico_matricula: null,
                 fecha_operacion: new Date(),
@@ -95,7 +94,7 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
 }); 
 
 //modificar matricula: predio, suscriptor, estado, tipo de servicio,id medidor
- matriculaController.post('/updateEnrollment',[JWTokenVerification], (req, res) => {
+ matriculaController.post('/updateEnrollment',/**[JWTokenVerification], */(req, res) => {
     matriculaModel.findOne({
         where: {
             [Op.or]: [
@@ -109,8 +108,7 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
             result.estado_matricula = req.body.estado_matricula;
             result.id_tipo_de_servicio = req.body.id_tipo_de_servicio;
             result.id_medidor = req.body.id_medidor;
-            // validar que el medidor no esté asociado a otra matricula
-            result.save().then((matriculaModified) => {
+            result.save().then(() => {
                 res.status(200).json({ok: true, message: 'Los datos de la matricula han sido modificados correctamente'});
             }).catch((err) => {
                 res.status(500).json({ok: false, message: 'Error al editar los datos de la Matricula', error: err});
