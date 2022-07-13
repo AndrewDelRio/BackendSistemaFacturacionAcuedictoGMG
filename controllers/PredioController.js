@@ -115,7 +115,7 @@ predioController.post("/addProperty",[JWTokenVerification], (req, res) => {
 });
 
 //modificar predio: nombre predio, destino economico, area construida
-predioController.post("/updateProperty", /**[JWTokenVerification],*/ (req, res) => {
+predioController.post("/updateProperty", [JWTokenVerification], (req, res) => {
   predioModel
     .findOne({
       where: {
