@@ -94,7 +94,7 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
 }); 
 
 //modificar matricula: predio, suscriptor, estado, tipo de servicio,id medidor
- matriculaController.post('/updateEnrollment',/**[JWTokenVerification], */(req, res) => {
+ matriculaController.post('/updateEnrollment', [JWTokenVerification], (req, res) => {
     matriculaModel.findOne({
         where: {
             [Op.or]: [
