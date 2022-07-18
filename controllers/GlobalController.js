@@ -11,6 +11,7 @@ const {medidorController} = require('./MedidoresController');
 const{tipoDeDocumentoController} = require('./TiposDeDocumentoController');
 const {userController} = require('./UsuarioController');
 const{financiacingController} = require('./FinanciacionesController');
+const {paymentController} = require('./CobroController');
 
 globalController.use(loginController);
 globalController.use(suscriptorController);
@@ -23,5 +24,6 @@ globalController.use(medidorController);
 globalController.use(tipoDeDocumentoController);
 globalController.use(userController);
 globalController.use(financiacingController);
+globalController.use(paymentController);
 
 module.exports = {globalController};
