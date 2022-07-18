@@ -162,4 +162,18 @@ matriculaController.get('/getEnrollmentState',[JWTokenVerification], (req, res) 
     return res.status(200).json({ok: true, result: matState});
 });
 
+//buscar matricula por id--> retur numero matricula, nombre_suscriptor
+matriculaController.get('/getEnrollmentByID/:id_enrollment',/**[JWTokenVerification],**/ (req, res) => {
+    const query = 'CALL get_enrollment_dates_by_id(:id_matricula)';
+    matriculaModel.sequelize.query(
+        query,
+        {type: QueryTypes.select,
+        replacements:{id_matricula: req.params.id_enrollment}
+        }).then((result) =>{
+        return res.status(200).json({ok: true, result: result});
+    }).catch((err) => {
+        return res.status(400).json({ok: false, message: 'Error al conectarse a la base de datos', err: err});
+    })
+});
+
 module.exports = {matriculaController};

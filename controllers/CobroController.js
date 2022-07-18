@@ -26,7 +26,6 @@ paymentController.get('/getPaymentByType/:paymentType',[JWTokenVerification], (r
     }).catch((err) => {
         return res.status(400).json({ok: false, message: 'Error al conectarse a la base de datos', err: err});
     })
-    
 });
 
 
