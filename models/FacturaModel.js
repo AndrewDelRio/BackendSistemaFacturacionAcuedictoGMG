@@ -27,11 +27,11 @@ const attributes = {
         allowNull:false
     },
     fecha_emision_factura:{
-        type: DataTypes.DATETIME,
+        type: DataTypes.DATE,
         allowNull:false
     },
     fecha_pago_factura:{
-        type: DataTypes.DATETIME,
+        type: DataTypes.DATE,
         allowNull:true
     },
     valor_pagado_factura:{
