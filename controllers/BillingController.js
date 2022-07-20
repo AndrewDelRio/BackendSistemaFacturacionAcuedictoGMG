@@ -47,7 +47,7 @@ billingController.get('/getDateFromLastPeriod',[JWTokenVerification],(req, res) 
 });
 
 //Obtener el periodo actual de facturacion
-billingController.get('/getActualDateFromBillingPeriod',/**[JWTokenVerification],*/(req, res) => {
+billingController.get('/getActualDateFromBillingPeriod',[JWTokenVerification],(req, res) => {
     facturaModel.sequelize.query('SELECT get_actual_billing_period() as actualPeriod',
     {type: QueryTypes.select}).then((result) =>{
         return res.status(200).json({ok: true, result: result[0]});
