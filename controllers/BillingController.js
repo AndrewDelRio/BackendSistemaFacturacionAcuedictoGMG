@@ -16,6 +16,7 @@ billingController.get('/getInvoiceLastPeriod',[JWTokenVerification], (req, res) 
 //recibir facturas que se pagaron
 billingController.post('/getPaidInvoices',[JWTokenVerification],(req, res) =>{
     const facturas = req.body.payment_list;
+    var counter = 0;
     if (facturas.length != 0) {
         const query = 'CALL update_invoice(:id_factura)';
         facturas.map(function(factura) { 
@@ -23,9 +24,10 @@ billingController.post('/getPaidInvoices',[JWTokenVerification],(req, res) =>{
             {type: QueryTypes.UPDATE,
                 replacements:{id_factura:factura}
             }).then((result) =>{
-                return res.status(200).json({ok:true, result:result,message: 'Registros actualizados'});
+                counter += result[0].registersUpdated;
             })
         })
+        return res.status(200).json({ok:true,result:counter,message: 'Registros actualizados'});
     }else{
         return res.status(400).json({ok: false, message: 'No se encontraron registros para actualizar'});
     }
