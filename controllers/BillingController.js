@@ -14,7 +14,7 @@ billingController.get('/getInvoiceLastPeriod',[JWTokenVerification], (req, res) 
     
 });
 //recibir facturas que se pagaron
-billingController.post('/getUnpaidInvoices',[JWTokenVerification],(req, res) =>{
+billingController.post('/getpaidInvoices',[JWTokenVerification],(req, res) =>{
     const facturas = req.body.payment_list;
     if (facturas.length != 0) {
         const query = 'CALL update_invoice(:id_factura)';
