@@ -14,16 +14,16 @@ billingController.get('/getInvoiceLastPeriod',[JWTokenVerification], (req, res) 
     
 });
 //recibir facturas que se pagaron
-billingController.post('/getUnpaidInvoices',/**[JWTokenVerification],*/(req, res) =>{
-    const facturas = req.body.id_factura;
+billingController.post('/getUnpaidInvoices',[JWTokenVerification],(req, res) =>{
+    const facturas = req.body.payment_list;
     if (facturas.length != 0) {
         const query = 'CALL update_invoice(:id_factura)';
         facturas.map(function(factura) { 
         facturaModel.sequelize.query(query,
             {type: QueryTypes.UPDATE,
-                replacements:{id_factura: factura}
+                replacements:{id_factura: Number(factura)}
             }).then((result) =>{
-                return res.status(200).json({ok:true, result:result[0],message: 'Registros actualizados'});
+                return res.status(200).json({ok:true, result:result,message: 'Registros actualizados'});
             })
         })
     }else{
