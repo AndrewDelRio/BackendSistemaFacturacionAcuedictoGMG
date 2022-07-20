@@ -14,22 +14,26 @@ billingController.get('/getInvoiceLastPeriod',[JWTokenVerification], (req, res) 
     
 });
 //recibir facturas que se pagaron
-billingController.post('/getPaidInvoices',[JWTokenVerification],(req, res) =>{
+billingController.post('/getPaidInvoices',/**[JWTokenVerification],*/(req, res) =>{
     const facturas = req.body.payment_list;
-    var counter = 0;
     if (facturas.length != 0) {
+        let counterUpdatesInvoices = 0;
         const query = 'CALL update_invoice(:id_factura)';
         facturas.map(function(factura) { 
         facturaModel.sequelize.query(query,
             {type: QueryTypes.UPDATE,
                 replacements:{id_factura:factura}
             }).then((result) =>{
-                counter += result[0].registersUpdated;
+                counterUpdatesInvoices++;
+                if (counterUpdatesInvoices === facturas.length) {
+                    return res.status(200).json({ok:true, message: 'Registros actualizados'});
+                }
+            }).catch((err) => {
+                res.status(400).json({ok: false, err:err, message: 'Error al conectarse a la base de datos'});
             })
         })
-        return res.status(200).json({ok:true,result:counter,message: 'Registros actualizados'});
     }else{
-        return res.status(400).json({ok: false, message: 'No se encontraron registros para actualizar'});
+        return res.status(400).json({ok: true, message: 'Todas las facturas no fueron pagadas'});
     }
     
 })
