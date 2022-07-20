@@ -10,8 +10,7 @@ billingController.get('/getInvoiceLastPeriod',[JWTokenVerification], (req, res) 
         return res.status(200).json({ok: true, result: result});
     }).catch((err) => {
         return res.status(400).json({ok: false, message: 'Error al conectarse a la base de datos', err: err});
-    })
-    
+    }) 
 });
 //recibir facturas que se pagaron
 billingController.post('/getPaidInvoices',[JWTokenVerification],(req, res) =>{
@@ -34,9 +33,18 @@ billingController.post('/getPaidInvoices',[JWTokenVerification],(req, res) =>{
         })
     }else{
         return res.status(400).json({ok: true, message: 'Todas las facturas no fueron pagadas'});
-    }
-    
+    }  
 })
+
+//obtener fecha estructurada del ultimo periodo de facturacion
+billingController.get('/getDateFromLastPeriod',[JWTokenVerification],(req, res) => {
+    facturaModel.sequelize.query('SELECT get_date_from_last_period() as dateLastPeriod').then((result) =>{
+        return res.status(200).json({ok: true, result: result[0]});
+    }).catch((err) => {
+        return res.status(400).json({ok: false, message: 'Error al conectarse a la base de datos', err: err});
+    })
+    
+});
 
 module.exports = {billingController};
 
