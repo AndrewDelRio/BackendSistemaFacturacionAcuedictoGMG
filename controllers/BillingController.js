@@ -21,7 +21,7 @@ billingController.post('/getPaidInvoices',[JWTokenVerification],(req, res) =>{
         facturas.map(function(factura) { 
         facturaModel.sequelize.query(query,
             {type: QueryTypes.UPDATE,
-                replacements:{id_factura: Number(factura)}
+                replacements:{id_factura:factura}
             }).then((result) =>{
                 return res.status(200).json({ok:true, result:result,message: 'Registros actualizados'});
             })
