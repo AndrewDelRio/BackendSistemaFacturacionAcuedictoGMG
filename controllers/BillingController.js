@@ -28,7 +28,7 @@ billingController.post('/getPaidInvoices',[JWTokenVerification],(req, res) =>{
                     return res.status(200).json({ok:true, message: 'Registros actualizados'});
                 }
             }).catch((err) => {
-                return res.status(400).json({ok: false, err:err, message: 'Error al conectarse a la base de datos'});
+                res.status(400).json({ok: false, err:err, message: 'Error al conectarse a la base de datos'});
             })
         })
     }else{
