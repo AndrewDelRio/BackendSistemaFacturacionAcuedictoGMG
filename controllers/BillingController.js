@@ -32,7 +32,7 @@ billingController.post('/getPaidInvoices',[JWTokenVerification],(req, res) =>{
             })
         })
     }else{
-        return res.status(200).json({ok: false, message: 'Todas las facturas no fueron pagadas'});
+        return res.status(200).json({ok: true, message: 'Todas las facturas no fueron pagadas'});
     }  
 })
 
