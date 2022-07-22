@@ -163,7 +163,7 @@ matriculaController.get('/getEnrollmentState',[JWTokenVerification], (req, res) 
 });
 
 //buscar matricula por id--> retur numero matricula, nombre_suscriptor
-matriculaController.get('/getEnrollmentByID/:id_enrollment',/**[JWTokenVerification],**/ (req, res) => {
+matriculaController.get('/getEnrollmentByID/:id_enrollment',[JWTokenVerification], (req, res) => {
     const query = 'CALL get_enrollment_dates_by_id(:id_matricula)';
     matriculaModel.sequelize.query(
         query,

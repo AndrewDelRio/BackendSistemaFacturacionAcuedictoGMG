@@ -13,6 +13,7 @@ const {userController} = require('./UsuarioController');
 const{financiacingController} = require('./FinanciacionesController');
 const {paymentController} = require('./CobroController');
 const {billingController} = require('./BillingController');
+const {listChargesController} = require('./ListChargesController');
 
 globalController.use(loginController);
 globalController.use(suscriptorController);
@@ -27,5 +28,6 @@ globalController.use(userController);
 globalController.use(financiacingController);
 globalController.use(paymentController);
 globalController.use(billingController);
+globalController.use(listChargesController);
 
 module.exports = {globalController};

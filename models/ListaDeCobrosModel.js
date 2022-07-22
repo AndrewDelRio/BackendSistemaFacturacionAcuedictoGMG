@@ -15,7 +15,7 @@ const attributes = {
         allowNull: false
     },
     id_matricula:{
-        type: DataTypes.INT,
+        type: DataTypes.INTEGER,
         allowNull:false
     },
     fecha_cobro:{
