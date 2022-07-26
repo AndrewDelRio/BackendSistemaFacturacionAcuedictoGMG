@@ -56,5 +56,17 @@ billingController.get('/getActualDateFromBillingPeriod',[JWTokenVerification],(r
     })
 });
 
+//generar facturacion de todas las matriculas
+billingController.get('/realiceBilling',[JWTokenVerification],(req, res) => {
+    facturaModel.sequelize.query('CALL facturar()',
+    {type: QueryTypes.SELECT}).then((result) =>{
+        return res.status(200).json({ok: true, result: result});
+    }).catch((err) => {
+        return res.status(400).json({ok: false, message: 'Error al conectarse a la base de datos', err: err});
+    })
+});
+
+
+
 module.exports = {billingController};
 
