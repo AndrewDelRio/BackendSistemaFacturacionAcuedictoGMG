@@ -6,7 +6,7 @@ const { QueryTypes } = require('@sequelize/core');
 
 // agregar las sanciones a las matriculas
 listChargesController.post('/registerChargesList',[JWTokenVerification], (req, res) => {
-    const cobrosList = req.body.charges;
+    const cobrosList = req.body.charge_list;
     if (cobrosList.length != 0) {
         let counterUpdatesCharges = 0;
         const query = 'CALL register_charges_and_penalties(:id_cobro,:id_matricula,:fecha_cobro,:cantidad_unidades,:observaciones)';
