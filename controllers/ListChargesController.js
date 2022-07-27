@@ -13,7 +13,7 @@ listChargesController.post('/registerChargesList',[JWTokenVerification], (req, r
         cobrosList.map(function(cobro) { 
             listaDeCobroModel.sequelize.query(query,
                 {type: QueryTypes.INSERT,
-                    replacements:{id_cobro:cobro.id_payment, id_matricula:cobro.id_enrollment,fecha_cobro:new Date(),cantidad_unidades: cobro.quantity, observaciones: cobro.observations}
+                    replacements:{id_cobro:cobro.id_charge, id_matricula:cobro.id_enrollment,fecha_cobro:new Date(),cantidad_unidades: cobro.quantity, observaciones: cobro.observations}
                 }).then((result) =>{
                     counterUpdatesCharges++;
                     if (counterUpdatesCharges === cobrosList.length) {
