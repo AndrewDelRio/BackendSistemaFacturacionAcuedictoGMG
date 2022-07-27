@@ -20,7 +20,7 @@ listChargesController.post('/registerChargesList',[JWTokenVerification], (req, r
                         return res.status(200).json({ok:true, message: 'Cobros registrados exitosamente'});
                     }
                 }).catch((err) => {
-                    res.status(400).json({ok: false, err:err, message: 'Error al conectarse a la base de datos'});
+                    return res.status(400).json({ok: false, err:err, message: 'Error al conectarse a la base de datos'});
                 })
         })
     }else{
