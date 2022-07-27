@@ -5,7 +5,7 @@ const { periodoDeFacturacionModel } = require("../models/PeriodoDeFacturacionMod
 const { JWTokenVerification } = require("../middleware/Authentication");
 const { QueryTypes } = require('@sequelize/core');
 
-periodoFacturacionController.post('/addBillingPeriod',/**[JWTokenVerification],*/ (req, res) => {
+periodoFacturacionController.post('/addBillingPeriod',[JWTokenVerification], (req, res) => {
     periodoDeFacturacionModel.sequelize.query('CALL crear_periodo_de_facturacion()').then((result) =>{
         return res.status(200).json({ok: true, result: result});
     }).catch((err) => {
