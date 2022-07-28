@@ -15,6 +15,7 @@ const {paymentController} = require('./CobroController');
 const {billingController} = require('./BillingController');
 const {listChargesController} = require('./ListChargesController');
 const {periodoFacturacionController} = require('./PeriodoFacturacionController');
+const {emailSenderController} = require('./EmailSenderController');
 
 globalController.use(loginController);
 globalController.use(suscriptorController);
@@ -31,5 +32,6 @@ globalController.use(paymentController);
 globalController.use(billingController);
 globalController.use(listChargesController);
 globalController.use(periodoFacturacionController);
+globalController.use(emailSenderController);
 
 module.exports = {globalController};
