@@ -77,7 +77,7 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
             let newHistoricEnrollment = historicoMatriculaModel.build({
                 id_historico_matricula: null,
                 fecha_operacion: new Date(),
-                tipo_operacion:'ADJ',
+                tipo_operacion:'Adjudicada',
                 id_matricula:result.id_matricula
             });
             newHistoricEnrollment.save().then((historicResult) =>{
@@ -108,8 +108,23 @@ matriculaController.post('/addEnrollment',[JWTokenVerification], (req, res) => {
             result.estado_matricula = req.body.estado_matricula;
             result.id_tipo_de_servicio = req.body.id_tipo_de_servicio;
             result.id_medidor = req.body.id_medidor;
-            result.save().then(() => {
-                res.status(200).json({ok: true, message: 'Los datos de la matricula han sido modificados correctamente'});
+            result.save().then((result) => {
+                if (result) {
+                    let newHistoricEnrollment = historicoMatriculaModel.build({
+                        id_historico_matricula: null,
+                        fecha_operacion: new Date(),
+                        tipo_operacion:result.estado_matricula,
+                        id_matricula:result.id_matricula
+                    });
+                    newHistoricEnrollment.save().then((historicResult) =>{
+                        if (historicResult) {
+                            res.status(200).json({ok: true, message: 'Los datos de la matricula han sido modificados correctamente'});
+                        }else{
+                            res.status(500).json({ok: false, message: 'Error al agregar la matricula', error: err});
+                        }
+                    });
+                }  
+                
             }).catch((err) => {
                 res.status(500).json({ok: false, message: 'Error al editar los datos de la Matricula', error: err});
             });
