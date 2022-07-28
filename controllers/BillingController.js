@@ -20,7 +20,7 @@ billingController.post('/getPaidInvoices',[JWTokenVerification],(req, res) =>{
         const query = 'CALL update_invoice(:id_factura)';
         facturas.map(function(factura) { 
         facturaModel.sequelize.query(query,
-            {type: QueryTypes.UPDATE,
+            {type: QueryTypes.select,
                 replacements:{id_factura:factura}
             }).then((result) =>{
                 counterUpdatesInvoices++;
