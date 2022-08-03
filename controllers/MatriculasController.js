@@ -172,8 +172,8 @@ matriculaController.get('/getEnrollmentsBySubscriber',[JWTokenVerification], (re
 
 //obtener los estados de la matricula
 matriculaController.get('/getEnrollmentState',[JWTokenVerification], (req, res) => {
-    let matState = ['Adjudicada','En instalacion','Activa',
-    'Suspension Impuesta','Suspension temporal','Cancelada'];
+    let matState = ['Adjudicada','En instalación','Activa',
+    'Suspensión impuesta','Suspensión temporal','Cancelada'];
     return res.status(200).json({ok: true, result: matState});
 });
 
