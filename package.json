@@ -7,7 +7,8 @@
     "nodemon": "^1.19.4"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
