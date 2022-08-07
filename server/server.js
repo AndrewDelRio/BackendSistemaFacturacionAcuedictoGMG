@@ -4,3 +4,4 @@ const {globalController} = require('../controllers/GlobalController');
 
 server.use(globalController);
 module.exports = {server};
+//Comment
