@@ -25,7 +25,11 @@ matriculaController.get('/getEnrollment/:id_enrollment',[JWTokenVerification], (
                 {type: QueryTypes.select,
                 replacements:{id_matricula: result.id_matricula}}
             ).then((resultMedidores) =>{
-                result.dataValues.medidores = resultMedidores[0];
+                if (resultMedidores != null) {
+                    result.dataValues.medidores = resultMedidores[0];
+                }else{
+                    result.dataValues.medidores = null;
+                }
                 const querySubscriber = " call get_name_subscriber_by_id_matricula(:id_matricula);"
                 medidorModel.sequelize.query(
                     querySubscriber,
