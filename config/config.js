@@ -1,8 +1,8 @@
-const dbUserName = 'ufz1wimlrdorjkgn';
-const dbPassword = 'fxbDx44LeLmpJW9qf0rq';
-const dbName = 'be3ecb62hjw6d2ksplo1';
-const dBHost = 'be3ecb62hjw6d2ksplo1-mysql.services.clever-cloud.com';
-const dBPort = '3306';
+const dbUserName = 'u3ahcytcf7lihogl';
+const dbPassword = 'Yz6ki9YrKxb3GNI1JD8';
+const dbName = 'bwbrypxrn7int2l8ynid';
+const dBHost = 'bwbrypxrn7int2l8ynid-mysql.services.clever-cloud.com';
+const dBPort = '20954';
 
 process.env.JWT_SIGNATURE = process.env.JWT_SIGNATURE || 'developmenttokensignature';
 process.env.JWT_EXP_TIME = process.env.JWT_EXP_TIME || '10h';
